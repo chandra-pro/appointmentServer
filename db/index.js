@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
-const DB_NAME = "Appointment";
+// const DB_NAME = "Appointment";
 
 const connectDB = async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${process.env.MONGO_URL}/${DB_NAME}`
+      `${process.env.MONGO_URL}`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
     );
     console.log(
       `\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`

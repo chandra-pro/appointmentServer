@@ -1,24 +1,25 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const { connectDB } = require("./db/index");
+const bodyParser = require("body-parser");
+const patientRoute = require("./routes/loginRoutes");
 
 const app = express();
-app.use(
-  cors() //     {
-  //     origin: process.env.CORS_ORIGIN,
-  //     credentials: true
-  // }
-);
 
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use(express.static("public"));
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+app.use(cors());
+
+//route
+app.get("/", async (req, res) => {
+  res.send("hello");
+});
+app.use("/api", patientRoute);
 connectDB()
   .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(process.env.PORT || 3000, () => {
       console.log(`⚙️ Server is running at port : ${process.env.PORT}`);
     });
   })
